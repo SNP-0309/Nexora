@@ -5,6 +5,8 @@ const compression = require("compression");
 const hpp = require("hpp");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
+const authRoutes = require("./routes/auth/auth.routes");
+const userRoutes = require("./routes/user/user.routes");
 
 const app = express();
 
@@ -28,6 +30,8 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/api/health", (req, res) => {
   res.status(200).json({
