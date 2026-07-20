@@ -1,13 +1,13 @@
 const express = require("express");
 const {
-  protect,
+    protect,
 } = require("../../middlewares/auth/auth.middleware");
 
 const {
-  register,
-  login,
-  logout,
-  refreshToken,
+    register,
+    login,
+    logout,
+    refreshToken,
 } = require("../../controllers/auth/auth.controller");
 
 const router = express.Router();

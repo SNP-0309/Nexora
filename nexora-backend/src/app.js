@@ -7,6 +7,8 @@ const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 const authRoutes = require("./routes/auth/auth.routes");
 const userRoutes = require("./routes/user/user.routes");
+const socialRoutes = require("./routes/social/social.routes");
+const postRoutes = require("./routes/post/post.routes");
 
 const app = express();
 
@@ -32,7 +34,8 @@ const limiter = rateLimit({
 app.use(limiter);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
-
+app.use("/api/social", socialRoutes);
+app.use("/api/posts", postRoutes);
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     success: true,
