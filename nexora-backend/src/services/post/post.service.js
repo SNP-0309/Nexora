@@ -86,10 +86,41 @@ const getPostComments = async (postId) => {
     .populate("author", "username fullName profilePicture")
     .sort({ createdAt: -1 });
 };
+const getFeed = async (page = 1, limit = 10) => {
+  page = Number(page);
+  limit = Number(limit);
 
+  const skip = (page - 1) * limit;
+
+  const totalPosts = await Post.countDocuments({
+    isDeleted: false,
+    visibility: "public",
+  });
+
+  const posts = await Post.find({
+    isDeleted: false,
+    visibility: "public",
+  })
+    .populate(
+      "author",
+      "username fullName profilePicture"
+    )
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit)
+    .lean();
+
+  return {
+    posts,
+    currentPage: page,
+    totalPages: Math.ceil(totalPosts / limit),
+    totalPosts,
+  };
+};
 module.exports = {
   createPost,
   toggleLikePost,
   addComment,
   getPostComments,
+  getFeed,
 };

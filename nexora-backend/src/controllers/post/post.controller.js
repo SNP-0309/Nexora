@@ -1,8 +1,10 @@
 const { createPost } = require("../../services/post/post.service");
 const { toggleLikePost } = require("../../services/post/post.service");
+
 const {
   addComment,
   getPostComments,
+  getFeed,
 } = require("../../services/post/post.service");
 const createNewPost = async (req, res) => {
   try {
@@ -94,9 +96,27 @@ const fetchComments = async (req, res) => {
     });
   }
 };
+const getFeedPosts = async (req, res) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+
+    const result = await getFeed(page, limit);
+
+    return res.status(200).json({
+      success: true,
+      ...result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   createNewPost,
   likePost,
   createComment,
   fetchComments,
+  getFeedPosts,
 };

@@ -5,6 +5,7 @@ const {
   likePost,
   createComment,
   fetchComments,
+  getFeedPosts,
 } = require("../../controllers/post/post.controller");
 
 const {
@@ -34,5 +35,6 @@ router.get(
 );
 
 router.post("/:postId/like", protect, likePost);
+router.get("/feed", protect, getFeedPosts);
 
 module.exports = router;
